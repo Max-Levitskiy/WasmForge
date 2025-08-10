@@ -46,6 +46,17 @@
 - [ ] Implement module caching with checksum verification
 - [ ] Expand function patterns and error handling
 
+## P0 — OSS Readiness
+- [x] Add dual licenses (MIT OR Apache-2.0) and update `Cargo.toml`
+- [x] Add community health files: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`
+- [x] Add GitHub Issue/PR templates
+- [x] Add CI workflow (format, clippy, build wasm module and desktop app)
+- [x] Add Dependabot for Cargo and Actions
+- [x] Add `.editorconfig`
+- [x] Add `rust-toolchain.toml` (nightly) to align with Rust 2024
+- [x] Update `README.md` with Contributing and License sections
+- [ ] Add badges once GitHub repo path is finalized
+
 ## P0 — Iteration 2: Add MCP tools for testing (shell, browser, recommend)
 - [x] Shell Executor
   - WASM: add `prepare_shell_exec(ptr,len)->i32` in `test-module/src/lib.rs` to validate command text
@@ -96,3 +107,60 @@
 - [x] File Ops demos (stdio)
 - [x] TCP mode example
 - [x] Include expected output snippets in `docs/EXAMPLES.md` for each demo
+
+## P0 — Module Template Suite (Rust, TypeScript, Python) — Plan (Level 3)
+
+- Complexity level: Level 3 (multi-language scaffolding + ABI alignment; Python requires future WASI host support)
+
+- Requirements analysis:
+  - Export `memory` and functions that match WasmForge discovery patterns:
+    - `i32_i32_to_i32` (e.g., `add(a: i32, b: i32) -> i32`)
+    - `ptr_len_to_i32` (e.g., `validate_url(ptr,len) -> i32`, `prepare_http_get(ptr,len) -> i32`, etc.)
+    - `no_params_to_i32` if needed
+  - No imports expected by current host (no WASI/env). Instance is created with zero imports.
+  - Host writes input bytes into module memory at offset 1024, then calls the export. Templates must be safe with raw pointer reads and avoid relying on managed allocators for incoming data.
+  - Keep string/heap usage minimal to avoid static data near low memory; use byte-wise checks instead of string constants where practical.
+
+- Components affected:
+  - New `templates/` directory with subfolders:
+    - `templates/rust-basic/` (works today)
+    - `templates/assemblyscript-basic/` (TypeScript via AssemblyScript; works today with constraints)
+    - `templates/python-wasi/` (placeholder + docs; requires future WASI host support)
+  - Documentation: `docs/TEMPLATES.md` with interface expectations, build steps, and caveats.
+  - `README.md` link to templates and quick-start build commands.
+
+- Architecture considerations:
+  - Rust: `no_std`-compatible cdylib style with `extern "C"` exports and `#[unsafe(no_mangle)]` for Rust 2024. No allocator required.
+  - TypeScript: AssemblyScript with `--runtime stub` and `--exportMemory`; avoid heap/string constants; use `load<u8>(ptr+idx)` byte checks. Export the same function names used in examples for immediate compatibility.
+  - Python: Realistic path is CPython/wasm32-wasi or Pyodide, which introduces WASI and imports. Our host must add WASI context and pass imports when instantiating. Until then, provide a template README and sample function signatures only.
+
+- Implementation strategy:
+  - Add scaffolding for Rust and AssemblyScript with minimal exports: `add`, `validate_url`, `prepare_http_get`, `prepare_file_read`, `prepare_file_write`, `prepare_shell_exec`, `prepare_recommend_mcps`.
+  - Provide `build.sh` (or npm scripts) to emit `.wasm` artifacts and a local copy step to `desktop-app/test-modules/`.
+  - Create `docs/TEMPLATES.md` explaining ABI requirements, pointer semantics, memory export, and build instructions.
+  - For Python, add `templates/python-wasi/README.md` describing requirements and the host gaps to close (WASI support, imports, and potential size/perf tradeoffs).
+
+- Detailed steps:
+  1) Create `templates/rust-basic/` with `Cargo.toml` and `src/lib.rs` exporting the functions (mirroring `test-module` logic).
+  2) Create `templates/assemblyscript-basic/` with `package.json`, `asconfig.json` (`--exportMemory`, `--runtime stub`), and `assembly/index.ts` using `load<u8>` for validation logic.
+  3) Add `docs/TEMPLATES.md` covering interface patterns, example exports, and build & copy commands for both templates.
+  4) Update `README.md` with a Templates section and quick-start commands.
+  5) Verify: build both templates; ensure exported functions discovered by the host and pass existing EXAMPLES flows.
+  6) Python: create `templates/python-wasi/README.md` documenting approach and host changes needed; do not integrate until WASI support exists.
+
+- Dependencies:
+  - Rust: `rustup target add wasm32-unknown-unknown`
+  - AssemblyScript: Node.js >= 18; devDeps: `assemblyscript`, `asbuild` (or `asc`), configured `asconfig.json`
+  - Python (future): Emscripten or CPython wasm32-wasi toolchain; Host WASI support via wasmtime
+
+- Challenges & mitigations:
+  - AssemblyScript memory layout conflicts with host writes at 1024: mitigate by avoiding heap and static strings; rely on byte-wise checks and stub runtime.
+  - ABI mismatch: ensure `extern` exports with exact names and `(i32,i32)->i32` or `(i32,i32)->i32` patterns; verify with `tool_discovery` output.
+  - Python/WASI not runnable today: track as creative-phase item and plan host changes (WASI context + imports).
+
+- Creative phase components:
+  - Python/WASI integration design: add WASI context in `WasmExecutor` and conditional instantiation with imports; evaluate size/performance and tool discovery mapping.
+
+- Mode recommendation:
+  - Proceed to IMPLEMENT MODE for Rust and TypeScript templates now.
+  - Proceed to CREATIVE MODE for Python/WASI integration design before implementation.

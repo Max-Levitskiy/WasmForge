@@ -1,0 +1,116 @@
+name: Release WasmForge
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  # Optionally create the release when a tag is pushed. Uploads happen in build jobs.
+  create-release:
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}
+          name: WasmForge ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          allowUpdates: true
+          generateReleaseNotes: true
+
+  build:
+    name: Build ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: macos-13
+            target: x86_64-apple-darwin
+          - os: macos-14
+            target: aarch64-apple-darwin
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Build (release)
+        run: cargo build --release --manifest-path desktop-app/Cargo.toml --target ${{ matrix.target }} --locked
+
+      - name: Package (Linux/macOS)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF##*/}"
+          DIST_DIR="dist"
+          mkdir -p "$DIST_DIR"
+          BIN_SRC="desktop-app/target/${{ matrix.target }}/release/desktop-app"
+          BIN_NAME="wasmforge"
+          cp "$BIN_SRC" "$DIST_DIR/$BIN_NAME"
+          cd "$DIST_DIR"
+          ARCHIVE="wasmforge-${TAG}-${{ matrix.target }}.tar.gz"
+          tar -czf "$ARCHIVE" "$BIN_NAME"
+          python3 - "$ARCHIVE" <<'PY'
+import hashlib, sys, pathlib
+p = pathlib.Path(sys.argv[1])
+h = hashlib.sha256()
+with open(p, 'rb') as f:
+    for chunk in iter(lambda: f.read(1<<20), b''):
+        h.update(chunk)
+print(f"{h.hexdigest()}  {p.name}")
+PY
+          > "$ARCHIVE.sha256"
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = "$env:GITHUB_REF_NAME"
+          $dist = "dist"
+          New-Item -ItemType Directory -Force -Path $dist | Out-Null
+          Copy-Item "desktop-app\target\${{ matrix.target }}\release\desktop-app.exe" "$dist\wasmforge.exe"
+          $zip = "wasmforge-$tag-${{ matrix.target }}.zip"
+          Compress-Archive -Path "$dist\wasmforge.exe" -DestinationPath "$dist\$zip" -Force
+          $hash = Get-FileHash -Algorithm SHA256 "$dist\$zip"
+          "${($hash.Hash).ToLower()}  $zip" | Out-File -Encoding ascii "$dist\$zip.sha256"
+
+      - name: Upload assets to Release (on tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: WasmForge ${{ github.ref_name }}
+          files: |
+            dist/*.tar.gz
+            dist/*.zip
+            dist/*.sha256
+          fail_on_unmatched_files: false
+
+      - name: Upload build artifacts (manual runs)
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: wasmforge-${{ matrix.target }}
+          path: |
+            dist/*.tar.gz
+            dist/*.zip
+            dist/*.sha256
+

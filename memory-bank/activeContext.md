@@ -1,12 +1,11 @@
 # Active Context
 
 ## Current Focus (VAN)
-- Initialize Memory Bank; verify project state via README and docs.
+- OSS readiness: add licenses, community health files, CI, and dependency updates.
 
 ## Next Steps (immediate)
-- Build test module and server; run tools/list and tools/call checks
-- Record results and issues into `progress.md` and `tasks.md`
-- Prepare for PLAN/IMPLEMENT depending on test outcomes
+- Ensure CI builds both crates (wasm + desktop) on nightly Rust
+- Add badges/links in `README.md`; iterate on CONTRIBUTING as needed
 
 ## Notes
-- Desktop app appears feature-complete per docs; verify empirically.
+- Desktop app appears feature-complete per docs; CI focuses on build/lint for now.

@@ -267,3 +267,27 @@ This implementation provides a solid foundation for:
 - Adding more sophisticated WASM function patterns
 - Implementing resource limits and advanced sandboxing
 - Creating development tools and templates
+
+## Contributing
+
+Contributions are welcome! Please read `CONTRIBUTING.md` for setup and workflow.
+
+We follow a `CODE_OF_CONDUCT.md` to ensure a welcoming community.
+
+## License
+
+Dual-licensed under either of:
+
+- Apache License, Version 2.0, see `LICENSE-APACHE`
+- MIT license, see `LICENSE-MIT`
+
+You may choose either license.
+
+## Module Templates
+
+Starter templates and docs are available to create new modules:
+- Rust: `templates/rust-basic/`
+- TypeScript (AssemblyScript): `templates/assemblyscript-basic/`
+- Python (WASI, planning): `templates/python-wasi/`
+
+See `docs/TEMPLATES.md` for ABI expectations and step-by-step build instructions.

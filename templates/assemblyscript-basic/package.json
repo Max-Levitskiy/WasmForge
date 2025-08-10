@@ -1,0 +1,11 @@
+{
+  "name": "assemblyscript-basic",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build:release": "asc assembly/index.ts -O3 --noAssert --runtime stub --initialMemory 1 -o build/assemblyscript_basic.wasm"
+  },
+  "devDependencies": {
+    "assemblyscript": "^0.27.25"
+  }
+}

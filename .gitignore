@@ -1,3 +1,10 @@
+target/
+**/target/
+.DS_Store
+/.idea/
+/.vscode/
+*.log
+
 # Rust build artifacts
 **/target/
 
