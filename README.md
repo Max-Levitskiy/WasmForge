@@ -106,7 +106,8 @@ path = "path/to/module.wasm"
 [modules.source]
 type = "http"
 url = "https://example.com/module.wasm"
-checksum = "sha256:abc123..."  # Optional integrity check
+# Optional integrity check: SHA-256 hex string (no prefix)
+checksum = "<sha256-hex>"
 ```
 
 **Registry (Future):**

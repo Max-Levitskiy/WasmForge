@@ -94,5 +94,5 @@
 - [x] Shell Executor demo commands (stdio)
 - [x] Recommend MCPS demo (stdio)
 - [x] File Ops demos (stdio)
-- [ ] TCP mode example
+- [x] TCP mode example
 - [x] Include expected output snippets in `docs/EXAMPLES.md` for each demo
