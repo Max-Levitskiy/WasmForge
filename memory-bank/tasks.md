@@ -5,8 +5,8 @@
   - Edit `desktop-app/src/main.rs`: in `ptr_len_to_i32` branch for `validate_url`, read `arguments["url"]` (not `data`) and update error messages accordingly.
 - [x] Ensure local module path validates
   - Edit `desktop-app/src/config.rs`: in `validate()`, when `ModuleSource::Local { path }` is relative and missing at config dir, also check current working directory before erroring (match `ModuleManager` behavior).
-- [x] Fix WASM export attributes for test module
-  - Edit `test-module/src/lib.rs`: replace all `#[unsafe(no_mangle)]` with `#[no_mangle]`.
+- [x] Fix WASM export attributes for test module (Rust 2024)
+  - Edit `test-module/src/lib.rs`: use `#[unsafe(no_mangle)]` for all exports (Rust 2024 requires marking `no_mangle` as unsafe).
 
 ### Build & Run
 - [x] Build WASM module
@@ -37,8 +37,8 @@
 - [x] prepare_file_read succeeds for `README.md` and returns file content.
 
 ## P1 — Document and integrate
-- [ ] Record outcomes and any bugs in `progress.md`
-- [ ] Document MCP compliance observations
+- [x] Record outcomes and any bugs in `progress.md`
+- [x] Document MCP compliance observations
 - [ ] Test Claude Desktop integration
 
 ## P2 — Next improvements
@@ -89,10 +89,10 @@
 - [x] `prepare_recommend_mcps` returns a JSON array including `shell_executor`, `web_browser`, and `file_ops` with method names and brief input schemas; items are relevant to query
 
 ## Examples and Demos
-- [ ] Create `docs/EXAMPLES.md` with runnable examples and expected outputs
-- [ ] Add README snippets for config-driven whitelist
-- [ ] Shell Executor demo commands (stdio)
-- [ ] Recommend MCPS demo (stdio)
-- [ ] File Ops demos (stdio)
+- [x] Create `docs/EXAMPLES.md` with runnable examples and expected outputs
+- [x] Add README snippets for config-driven whitelist
+- [x] Shell Executor demo commands (stdio)
+- [x] Recommend MCPS demo (stdio)
+- [x] File Ops demos (stdio)
 - [ ] TCP mode example
-- [ ] Include expected output snippets in `docs/EXAMPLES.md` for each demo
+- [x] Include expected output snippets in `docs/EXAMPLES.md` for each demo

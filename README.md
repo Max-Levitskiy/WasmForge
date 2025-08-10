@@ -58,6 +58,8 @@ echo '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"add","argu
 echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"fetch","arguments":{"url":"https://httpbin.org/json"}}}' | ./target/debug/desktop-app
 ```
 
+See more runnable examples in `docs/EXAMPLES.md`.
+
 ## Configuration System
 
 WasmForge uses a TOML configuration file for module management. Here's an example:
@@ -229,6 +231,32 @@ The system consists of several key components:
 - Use firewall rules or VPN for secure remote access
 - WASM modules run in a sandboxed environment but can make HTTP requests
 - Always verify module checksums when downloading from external sources
+
+### Tool Security Allow-List
+The `prepare_shell_exec` tool is doubly validated: syntax/characters in WASM and an allow-list enforced by the host.
+
+Defaults if unset: `echo`, `cat`, `ls`, `wc`, `uname`.
+
+Configure via `config.toml`:
+
+Structured security on tool:
+```toml
+[[modules.tools]]
+name = "shell_executor"
+description = "Execute simple shell commands"
+function_name = "prepare_shell_exec"
+
+[modules.tools.security]
+allowed_commands = ["echo", "ls", "wc"]
+```
+
+Fallback metadata CSV on module:
+```toml
+[modules.metadata]
+allowed_commands_csv = "echo,cat,ls,wc,uname"
+```
+
+The host resolves allowed commands in this priority: tool.security.allowed_commands -> modules.metadata.allowed_commands_csv -> defaults.
 
 ## Next Steps
 
