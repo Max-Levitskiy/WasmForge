@@ -276,12 +276,7 @@ We follow a `CODE_OF_CONDUCT.md` to ensure a welcoming community.
 
 ## License
 
-Dual-licensed under either of:
-
-- Apache License, Version 2.0, see `LICENSE-APACHE`
-- MIT license, see `LICENSE-MIT`
-
-You may choose either license.
+Licensed under the GNU Affero General Public License v3.0 only (AGPL-3.0-only). See `LICENSE` for details.
 
 ## Module Templates
 

@@ -61,10 +61,11 @@ See more in `docs/EXAMPLES.md`.
 ## Licensing
 
 By contributing, you agree that your contributions will be licensed under the
-dual license of this project: MIT OR Apache-2.0.
+AGPL-3.0-only license of this project.
 
 ## Code of Conduct
 
 Please read and follow our `CODE_OF_CONDUCT.md`.
+
 
 

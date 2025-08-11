@@ -25,3 +25,4 @@ Notes:
 - Uses `extern "C"` and `#[unsafe(no_mangle)]` (Rust 2024).
 - Host writes input bytes to `memory` at offset 1024.
 - Avoid relying on allocators for incoming data; read via raw pointers.
+

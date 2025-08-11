@@ -1,31 +1,30 @@
 name: Feature request
 description: Suggest an idea for this project
-labels: [enhancement]
+labels: [ enhancement ]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for your suggestion! Please search existing issues first.
-  - type: textarea
-    id: problem
-    attributes:
-      label: Problem to solve
-      description: What problem would this feature solve?
-    validations:
-      required: true
-  - type: textarea
-    id: proposal
-    attributes:
-      label: Proposed solution
-      description: Describe your idea at a high level. Include alternatives considered.
-    validations:
-      required: true
-  - type: textarea
-    id: context
-    attributes:
-      label: Additional context
-      description: Links to prior art, screenshots, or references.
-    validations:
-      required: false
-
+- type: markdown
+  attributes:
+    value: |
+      Thanks for your suggestion! Please search existing issues first.
+- type: textarea
+  id: problem
+  attributes:
+    label: Problem to solve
+    description: What problem would this feature solve?
+  validations:
+    required: true
+- type: textarea
+  id: proposal
+  attributes:
+    label: Proposed solution
+    description: Describe your idea at a high level. Include alternatives considered.
+  validations:
+    required: true
+- type: textarea
+  id: context
+  attributes:
+    label: Additional context
+    description: Links to prior art, screenshots, or references.
+  validations:
+    required: false
 

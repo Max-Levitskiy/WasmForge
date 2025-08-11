@@ -1,7 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Questions and support
-    url: https://github.com/OWNER/REPO/discussions
-    about: Please use GitHub Discussions for questions.
-
-
+- name: Questions and support
+  url: https://github.com/Max-Levitskiy/WasmForge/discussions
+  about: Please use GitHub Discussions for questions.

@@ -19,3 +19,4 @@ Exports:
 Notes:
 - Uses `asc` with `--exportMemory` and `--runtime stub` to avoid heavy runtime.
 - Input bytes must be read from `memory` using `load<u8>(ptr + i)`.
+

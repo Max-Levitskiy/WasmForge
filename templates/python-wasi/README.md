@@ -14,3 +14,4 @@ Host requirements to enable:
 Interim guidance:
 - Prefer Rust or AssemblyScript templates for now to avoid WASI dependencies.
 - Track the WASI integration design in `memory-bank/tasks.md` under Module Template Suite plan.
+

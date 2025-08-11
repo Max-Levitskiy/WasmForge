@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added community health files (Contributing, Code of Conduct, Security)
 - Added CI workflow for format, lint, and builds
 - Added Dependabot configuration
-- Dual-licensed under MIT OR Apache-2.0
+- Relicensed to AGPL-3.0-only
+
 
 

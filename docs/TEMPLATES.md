@@ -94,3 +94,4 @@ cd /Users/max/git/webtree/WasmForge/desktop-app
 ```
 
 Then list tools and try calling them per `docs/EXAMPLES.md`.
+

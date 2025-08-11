@@ -1,60 +1,59 @@
 name: Bug report
 description: Create a report to help us improve
-labels: [bug]
+labels: [ bug ]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
-  - type: input
-    id: version
-    attributes:
-      label: Version
-      description: Output of `desktop-app --version` and the git commit/ref
-    validations:
-      required: false
-  - type: textarea
-    id: description
-    attributes:
-      label: Describe the bug
-      description: A clear and concise description of what the bug is.
-    validations:
-      required: true
-  - type: textarea
-    id: repro
-    attributes:
-      label: Steps to reproduce
-      description: Provide minimal steps or commands to reproduce the behavior.
-      placeholder: |
-        1.
-        2.
-        3.
-    validations:
-      required: true
-  - type: textarea
-    id: expected
-    attributes:
-      label: Expected behavior
-    validations:
-      required: true
-  - type: textarea
-    id: logs
-    attributes:
-      label: Logs/output
-      description: Paste relevant logs or outputs. Please redact secrets.
-      render: shell
-    validations:
-      required: false
-  - type: dropdown
-    id: os
-    attributes:
-      label: OS
-      multiple: true
-      options:
-        - macOS
-        - Linux
-        - Windows (WSL)
-    validations:
-      required: false
-
+- type: markdown
+  attributes:
+    value: |
+      Thanks for taking the time to fill out this bug report!
+- type: input
+  id: version
+  attributes:
+    label: Version
+    description: Output of `desktop-app --version` and the git commit/ref
+  validations:
+    required: false
+- type: textarea
+  id: description
+  attributes:
+    label: Describe the bug
+    description: A clear and concise description of what the bug is.
+  validations:
+    required: true
+- type: textarea
+  id: repro
+  attributes:
+    label: Steps to reproduce
+    description: Provide minimal steps or commands to reproduce the behavior.
+    placeholder: |
+      1.
+      2.
+      3.
+  validations:
+    required: true
+- type: textarea
+  id: expected
+  attributes:
+    label: Expected behavior
+  validations:
+    required: true
+- type: textarea
+  id: logs
+  attributes:
+    label: Logs/output
+    description: Paste relevant logs or outputs. Please redact secrets.
+    render: shell
+  validations:
+    required: false
+- type: dropdown
+  id: os
+  attributes:
+    label: OS
+    multiple: true
+    options:
+    - macOS
+    - Linux
+    - Windows (WSL)
+  validations:
+    required: false
 

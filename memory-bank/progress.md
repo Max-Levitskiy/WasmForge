@@ -30,7 +30,7 @@
 - More function patterns; improved error handling; hot-reload (dev)
 
 ## OSS Readiness (2025-08-10)
-- Added licenses: `LICENSE-MIT`, `LICENSE-APACHE`; updated crate `license` fields
+- Relicensed to AGPL-3.0-only; added root `LICENSE`; updated crate `license` fields
 - Added community files: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `CHANGELOG.md`
 - Added CI workflow for format/lint/build on nightly with wasm target
 - Added Dependabot and `.editorconfig`

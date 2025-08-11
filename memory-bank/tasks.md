@@ -48,6 +48,7 @@
 
 ## P0 — OSS Readiness
 - [x] Add dual licenses (MIT OR Apache-2.0) and update `Cargo.toml`
+- [x] Switch to AGPL-3.0-only; remove MIT/Apache files; update manifests and docs
 - [x] Add community health files: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`
 - [x] Add GitHub Issue/PR templates
 - [x] Add CI workflow (format, clippy, build wasm module and desktop app)

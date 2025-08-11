@@ -22,3 +22,4 @@ If the private reporting feature is unavailable, open a new draft security advis
 The `desktop-app` binary and WASM execution host are in scope. Third-party WASM modules are out of scope unless explicitly provided by this repository.
 
 
+
